@@ -30,12 +30,10 @@ class Spinner:
         style = Style.from_dict({'info': COLOR_INFO})
 
         if self.message:
-            # sys.stdout.write(self.message)
             text = FormattedText([('class:info', self.message)])
             print_formatted_text(text, style=style, flush=True, end='')
 
         while self.busy:
-            # sys.stdout.write(next(self.spinner_generator))
             print_formatted_text(FormattedText([('class:info', next(self.spinner_generator))]),
                                  style=style, flush=True, end='')
             sys.stdout.flush()

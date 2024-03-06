@@ -115,19 +115,12 @@ def checkbox(message: str, choices: list, cycle=True, mandatory=True, style=None
             cycle=cycle,
             style=style,
             transformer=transformer
-            # transformer=lambda result: "%s region%s selected"
-            #                            % (len(result), "s" if len(result) > 1 else ""),
         ).execute()
 
     return selected_options
 
 
 def confirm_choices(message='Are you sure?') -> any:
-    # choices = [
-    #     Choice('yes', name='Yes'),
-    #     Choice('no', name='No')
-    # ]
-    # return option_select(message, choices, separator=False, back=False)
     return inquirer.confirm(message).execute()
 
 

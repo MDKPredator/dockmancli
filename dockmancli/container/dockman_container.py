@@ -14,24 +14,9 @@ from dockmancli.utils.dockman_common import read_yaml
 from dockmancli.utils.emjois import Emjois
 
 
-# class DockmanCompleter(Completer):
-#
-#     def __init__(self, choices: [str]):
-#         self._choices = choices
-#
-#     def get_completions(self, document, complete_event):
-#         for choice in self._choices:
-#             yield Completion(
-#                 choice,
-#                 start_position=0,
-#                 style='bg:lightblue fg:ansiblack'
-#             )
-
-
 def _remove_status(result):
     if result:
         containers_status = result
-        # print(f'Result is str {isinstance(result, str)} or list {isinstance(result, list)}')
         if isinstance(result, str):
             containers_status = [result]
 
@@ -135,8 +120,8 @@ class DockManContainer(DockerCommon):
             Choice('config', name=f'{Emjois.ICON_YAML} Yaml configuration')
         ]
 
-        selected_option = prompt_utils.option_select('Create container with basic options', choices, separator=True,
-                                                     back=True)
+        selected_option = prompt_utils.option_select('Create container with basic options', choices,
+                                                     separator=True, back=True)
 
         if selected_option == 'config':
             read_yaml('containers', self._create_containers)

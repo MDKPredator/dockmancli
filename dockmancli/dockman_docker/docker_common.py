@@ -24,7 +24,6 @@ class DockerCommon:
                 yield Completion(
                     choice,
                     style='bg:lightblue fg:ansiblack'
-                    # style='bg:blue fg:black'
                 )
 
     def _create_images(self, images: dict):

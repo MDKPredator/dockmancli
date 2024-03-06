@@ -118,7 +118,6 @@ class DockManImage(DockerCommon):
                 elif selected_option == 'dockerfile':
                     self.__dockerfile()
                 elif selected_option == 'config':
-                    # self.__read_yaml()
                     read_yaml('images', self._create_images)
             except docker.errors.APIError as e:
                 prompt_utils.error_message(str(e))
