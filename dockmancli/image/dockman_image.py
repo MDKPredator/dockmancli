@@ -80,6 +80,7 @@ class DockManImage(DockerCommon):
                 choices.append(Separator())
                 choices.append(Choice('multiselect', name=f'{Emjois.ICON_CHECK} Multiselect'))
                 choices.append(Choice('autocompleter', name=f'{Emjois.ICON_AUTOCOMPLETE} Autocompleter'))
+                choices.append(Choice('refresh', name=f'{Emjois.ICON_REFRESH} Refresh'))
 
                 if order_desc:
                     choices.append(Choice('order_asc', name=f'{Emjois.ICON_ARROW_UP} Order asc'))
@@ -98,7 +99,7 @@ class DockManImage(DockerCommon):
                         order_desc = False
                     else:
                         order_desc = True
-                else:
+                elif selected_option != 'refresh':
                     self.__image_options(selected_option)
 
     def __create(self):

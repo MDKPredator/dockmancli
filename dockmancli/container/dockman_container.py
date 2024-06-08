@@ -2,6 +2,7 @@
 import re
 from typing import Union
 
+import dateutil.parser as dparser
 import docker
 from InquirerPy.base import Choice
 from InquirerPy.separator import Separator
@@ -93,6 +94,7 @@ class DockManContainer(DockerCommon):
                 choices.append(Separator())
                 choices.append(Choice('multiselect', name=f'{Emjois.ICON_CHECK} Multiselect'))
                 choices.append(Choice('autocompleter', name=f'{Emjois.ICON_AUTOCOMPLETE} Autocompleter'))
+                choices.append(Choice('refresh', name=f'{Emjois.ICON_REFRESH} Refresh'))
 
                 if order_desc:
                     choices.append(Choice('order_asc', name=f'{Emjois.ICON_ARROW_UP} Order asc'))
@@ -111,7 +113,7 @@ class DockManContainer(DockerCommon):
                         order_desc = False
                     else:
                         order_desc = True
-                else:
+                elif selected_option != 'refresh':
                     self.__container_options(selected_option)
 
     def __create(self):
@@ -149,6 +151,7 @@ class DockManContainer(DockerCommon):
                   status == docker_utils.Status.created):
                 choices.append(Choice('start', name=f'{Emjois.ICON_START} Start'))
             choices.append(Choice('rename', name=f'{Emjois.ICON_RENAME} Rename'))
+            choices.append(Choice('logs', name=f'{Emjois.ICON_LOGS} Logs'))
 
             container_name = docker_utils.get_container_name(container_id)
             message = f'Container "{container_name}" is {status.value}'
@@ -179,6 +182,8 @@ class DockManContainer(DockerCommon):
                         self.__remove(cid)
                 elif action == 'rename':
                     self.__rename(cid)
+                elif action == 'logs':
+                    self.__logs_options(cid)
             except docker.errors.APIError as e:
                 prompt_utils.error_message(str(e))
 
@@ -215,6 +220,45 @@ class DockManContainer(DockerCommon):
             prompt_utils.info_message(f'Container renamed to "{new_name}"')
             container = self.client.containers.get(container_id)
             container.rename(new_name)
+
+    def __logs_options(self, container_id: str):
+        selected_option = None
+
+        while selected_option != prompt_utils.MENU_OPTION_BACK:
+            choices = [
+                Choice('all', name=f'{Emjois.ICON_LOGS} Show all'),
+                Choice('follow', name=f'{Emjois.ICON_LOGS} Follow (Press Control + c to exit)')
+            ]
+
+            selected_option = prompt_utils.option_select('Select a log option:', choices=choices)
+
+            if selected_option and selected_option != prompt_utils.MENU_OPTION_BACK:
+                if selected_option == 'all':
+                    self.__logs_all(container_id)
+                elif selected_option == 'follow':
+                    self.__logs_follow(container_id)
+
+    def __logs_all(self, container_id: str):
+        container = self.client.containers.get(container_id)
+        container_logs = container.logs()
+        prompt_utils.print_default(container_logs.decode("utf-8"))
+
+    def __logs_follow(self, container_id: str):
+        container = self.client.containers.get(container_id)
+        since = None
+        try:
+            last_timestamp = None
+            while True:
+                container_logs = container.logs(stream=True, follow=False, timestamps=True, since=since)
+                for bytes_log in container_logs:
+                    log = bytes_log.decode("utf-8")
+                    last_timestamp = re.search('\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{9}Z ', log).group(0)
+                    prompt_utils.print_default(log.replace('\n', ' ').replace(last_timestamp, ''))
+
+                since = dparser.parse(last_timestamp, fuzzy=True).timestamp()
+                since = int(since) + float(re.search('.\d{9}', last_timestamp.strip()).group(0)) + 0.000001
+        except KeyboardInterrupt:
+            pass
 
     def __get_container_name(self, container_id: str) -> str:
         container = self.client.containers.get(container_id)
