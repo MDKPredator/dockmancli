@@ -1,13 +1,13 @@
 # Docker Manager CLI
 
-Manage Docker interactively from the terminal. You can create and delete images, containers, networks and volumes. 
+Manage Docker interactively from the terminal. You can create and delete images, containers, networks and volumes.
 You can also create a yaml configuration file with which you can create one or more images, containers, networks and volumes.
 
 ### Changelog
 
 1.1.0
 - Containers
-    - Improved log option
+  - Improved log option
 
 1.0.1
 - Containers
@@ -17,96 +17,95 @@ You can also create a yaml configuration file with which you can create one or m
   - New refresh option
 
 1.0.0
-
 Initial version
 
 # Main menu
 
 From the main menu you can access Containers, Images, Volumes and Networks. You can also create all this from a yaml file.
 
-![](images/main_menu.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//main_menu.png)
 
 ## Containers
 
 From the menu you will be able to list or create containers
 
-![](images/containers/container_menu.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//containers/container_menu.png)
 
 ### Containers list
 
 It will show all containers, and their status, in ascending order. The order can be changed in descending order. You can enable the auto-completion option, which will filter the containers as you type. Another option is to select multiple containers, for example, to delete them.
 
-![](images/containers/containers_list.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//containers/containers_list.png)
 
 Container options:
 
-![](images/containers/container_options.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//containers/container_options.png)
 
 Descending order:
 
-![](images/containers/containers_list_desc.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//containers/containers_list_desc.png)
 
 Autocomplete:
 
-![](images/containers/containers_autocomplete.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//containers/containers_autocomplete.png)
 
 Multiselect:
 
-![](images/containers/containers_multiselect.png)
-![](images/containers/containers_multiselect_options.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//containers/containers_multiselect.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//containers/containers_multiselect_options.png)
 
 ### Container creation
 
 A container can be created from an existing image, or through a yaml file. First, select the image
 
-![](images/containers/container_creation_from_image_1.png)
-![](images/containers/container_creation_from_image_2.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//containers/container_creation_from_image_1.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//containers/container_creation_from_image_2.png)
 
 ## Images
 
 From the menu you will be able to list or create images
 
-![](images/images/image_menu.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//images/image_menu.png)
 
 ### Images list
 
 Like the containers, the list of images can be sorted in ascending and descending order, enable auto-completion and select multiple images
 
-![](images/images/images_list.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//images/images_list.png)
 
 ### Image creation
 
 An image can be created by pull, Dockerfile or yaml file
 
-![](images/images/image_creation_options.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//images/image_creation_options.png)
 
 #### Pull
 
 Pull the image
 
-![](images/images/image_pull.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//images/image_pull.png)
 
 #### Dockerfile
 
 Select a Dockerfile from your computer
 
-![](images/images/image_dockerfile.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//images/image_dockerfile.png)
 
 ## Volumes
 
 From the menu you will be able to list or create volumes
 
-![](images/volumes/volume_menu.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//volumes/volume_menu.png)
 
 ### Volumes list
 
 It will show the list of volumes
 
-![](images/volumes/volumes_list.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//volumes/volumes_list.png)
 
 Volume options:
 
-![](images/volumes/volume_options.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//volumes/volume_options.png)
 
 ### Volume creation
 
@@ -116,23 +115,23 @@ A volume can be created manually or yaml file
 
 Enter name and driver to create the volume
 
-![](images/volumes/volume_creation_manually.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//volumes/volume_creation_manually.png)
 
 ## Networks
 
 From the menu you will be able to list or create networks
 
-![](images/networks/network_menu.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//networks/network_menu.png)
 
 ### Networks list
 
 Networks can be sorted in ascending and descending order, enable auto-completion and select multiple networks
 
-![](images/networks/networks_list.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//networks/networks_list.png)
 
 Network options:
 
-![](images/networks/network_options.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//networks/network_options.png)
 
 ### Network creation
 
@@ -142,7 +141,7 @@ A network can be created manually or yaml file
 
 Enter name and driver to create the network
 
-![](images/networks/network_creation_manually.png)
+![](https://raw.githubusercontent.com/MDKPredator/dockmancli/main/images//networks/network_creation_manually.png)
 
 ## Yaml
 
