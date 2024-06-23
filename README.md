@@ -3,6 +3,23 @@
 Manage Docker interactively from the terminal. You can create and delete images, containers, networks and volumes. 
 You can also create a yaml configuration file with which you can create one or more images, containers, networks and volumes.
 
+### Changelog
+
+1.1.0
+- Containers
+    - Improved log option
+
+1.0.1
+- Containers
+  - New refresh option
+  - New log option
+- Images
+  - New refresh option
+
+1.0.0
+
+Initial version
+
 # Main menu
 
 From the main menu you can access Containers, Images, Volumes and Networks. You can also create all this from a yaml file.

@@ -227,29 +227,51 @@ class DockManContainer(DockerCommon):
         while selected_option != prompt_utils.MENU_OPTION_BACK:
             choices = [
                 Choice('all', name=f'{Emjois.ICON_LOGS} Show all'),
-                Choice('follow', name=f'{Emjois.ICON_LOGS} Follow (Press Control + c to exit)')
+                Choice('follow', name=f'{Emjois.ICON_LOGS} Follow (Press Control + c to exit)'),
+                Choice('follow_10', name=f'{Emjois.ICON_LOGS} Follow from last 10 lines (Press Control + c to exit)'),
+                Choice('follow_25', name=f'{Emjois.ICON_LOGS} Follow from last 25 lines (Press Control + c to exit)'),
+                Choice('follow_50', name=f'{Emjois.ICON_LOGS} Follow from last 50 lines (Press Control + c to exit)'),
+                Choice('follow_custom', name=f'{Emjois.ICON_LOGS} Customize number of last lines to show')
             ]
 
             selected_option = prompt_utils.option_select('Select a log option:', choices=choices)
 
             if selected_option and selected_option != prompt_utils.MENU_OPTION_BACK:
+                if selected_option == 'follow_custom':
+                    selected_option = prompt_utils.number('Enter number of lines', mandatory=False, skip=True,
+                                                          min_allowed=1, max_allowed=1000)
+                    if selected_option:
+                        selected_option = 'follow_' + selected_option
+
                 if selected_option == 'all':
                     self.__logs_all(container_id)
-                elif selected_option == 'follow':
-                    self.__logs_follow(container_id)
+                elif selected_option and 'follow' in selected_option:
+                    last_logs = int(selected_option.split('_')[1]) if '_' in selected_option else None
+                    self.__logs_follow(container_id, last_logs)
 
     def __logs_all(self, container_id: str):
         container = self.client.containers.get(container_id)
         container_logs = container.logs()
-        prompt_utils.print_default(container_logs.decode("utf-8"))
+        prompt_utils.print_default(container_logs.decode('utf-8'))
 
-    def __logs_follow(self, container_id: str):
+    def __logs_follow(self, container_id: str, last_logs: int = None):
         container = self.client.containers.get(container_id)
         since = None
         try:
             last_timestamp = None
+            stream = False if last_logs else True
             while True:
-                container_logs = container.logs(stream=True, follow=False, timestamps=True, since=since)
+                container_logs = container.logs(stream=stream, follow=False, timestamps=True, since=since)
+                if last_logs:
+                    container_logs = container_logs.decode('utf-8').split('\n')[-(last_logs + 1):-1]
+                    container_logs_encoded = []
+                    for log in container_logs:
+                        container_logs_encoded.append(bytes(log, 'utf-8'))
+
+                    container_logs = container_logs_encoded
+                    last_logs = None
+                    stream = True
+
                 for bytes_log in container_logs:
                     log = bytes_log.decode("utf-8")
                     last_timestamp = re.search('\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{9}Z ', log).group(0)

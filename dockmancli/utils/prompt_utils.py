@@ -72,6 +72,28 @@ def text(message: str, mandatory=True, skip=False, keybindings=None, style=None,
     return response
 
 
+def number(message: str, mandatory=True, skip=False, keybindings=None, style=None, transformer=None, filter=None,
+           validate=None, min_allowed=None, max_allowed=None, invalid_message='Invalid input'):
+    if skip:
+        keybindings = __add_skip_keybinding(keybindings)
+        message = message + '. Press escape to cancel'
+
+    response = inquirer.number(
+        message=message,
+        mandatory=mandatory,
+        keybindings=keybindings,
+        max_allowed=max_allowed,
+        min_allowed=min_allowed,
+        style=style,
+        transformer=transformer,
+        filter=filter,
+        validate=validate,
+        invalid_message=invalid_message
+    ).execute()
+
+    return response
+
+
 def filepath(message: str, mandatory=True, default_path='', keybindings=None):
     if not mandatory:
         keybindings = __add_skip_keybinding(keybindings)
